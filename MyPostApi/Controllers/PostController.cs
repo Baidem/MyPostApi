@@ -1,6 +1,7 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Repositories.Contracts;
 
 namespace MyPostApi.Controllers
@@ -59,6 +60,16 @@ namespace MyPostApi.Controllers
                 return Ok(postModified);
             else
                 return Problem("Post not modified");
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult<Post>> RemovePost(int id)
+        {
+            var postRemoved = await postRepository.RemovePostAsync(id);
+            if (postRemoved != null)
+                return Ok(postRemoved);
+            else
+                return Problem("Post not removed");
         }
 
 

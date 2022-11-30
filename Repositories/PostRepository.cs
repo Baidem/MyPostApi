@@ -28,16 +28,16 @@ namespace Repositories
         {
             return await context.Posts.FindAsync(id);
         }
-        public Task<Post?> GetPostWithCommentsAsync(int id)
+        public async Task<Post?> GetPostWithCommentsAsync(int id)
         {
-            return context.Posts.Include(p => p.Comments).FirstOrDefaultAsync(p => p.Id == id);
+            return await context.Posts.Include(p => p.Comments).FirstOrDefaultAsync(p => p.Id == id);
         }
 
         public async Task<Post?> AddPostAsync(Post post)
         {
             try
             {
-                context.Posts.Add(post);
+                await context.Posts.AddAsync(post);
 
                 await context.SaveChangesAsync();
             }
@@ -54,7 +54,7 @@ namespace Repositories
         {
             try
             {
-                Post? post = context.Posts.Find(param.Id);
+                Post? post = await context.Posts.FindAsync(param.Id);
                 if (post != null)
                 {
                     post.Title = param.Title;
@@ -81,6 +81,32 @@ namespace Repositories
             }
         }
 
+        public async Task<Post?> RemovePostAsync(int id)
+        {
+            try
+            {
+                Post? post = await context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+                if (post != null)
+                {
+                    context.Posts.Remove(post);
+
+                    await context.SaveChangesAsync();
+                    return post;
+                }
+                else
+                {
+                    logger.LogError("Item not found");
+
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e?.InnerException?.ToString());
+
+                return null;
+            }
+        }
     }
 }
 
