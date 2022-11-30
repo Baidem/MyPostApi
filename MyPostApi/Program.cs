@@ -22,6 +22,7 @@ builder.Services.AddDbContext<MyPostApiContext>(o =>
     //o.LogTo(Console.Write);
 });
 
+
 // Forcer les migrations en attentes (évite de faire le update-database)
 //using (var serviceScope = app.Services.CreateScope())
 //{
@@ -37,11 +38,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 builder.Services.AddDbContext<MyPostApiContext>(); // Fix migration Init
 
-builder.Services.AddDbContext<MyPostApiContext>(); // Fix PostController
-
-builder.Services.AddScoped<IPostRepository, PostRepository>(); // Fix PostController
+builder.Services.AddScoped<IPostRepository, PostRepository>(); // Fix scope PostController
+builder.Services.AddScoped<ICommentRepository, CommentRepository>();  // Fix scope CommentController
+builder.Services.AddScoped<IUserRepository, UserRepository>();  // Fix scope UserController
 
 var app = builder.Build();
 
