@@ -71,7 +71,5 @@ namespace MyPostApi.Controllers
             else
                 return Problem("Post not removed");
         }
-
-
     }
 }
