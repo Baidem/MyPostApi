@@ -14,10 +14,10 @@ namespace Entities
         public string Title { get; set; }
         [Column("AuthorId")]
         public int? UserId { get; set; }
-        public User User { get; set; }
+        public User? User { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime EditedDate { get; set; }
-        public string Content { get; set; }
+        public string? Content { get; set; }
         public List<Comment> Comments { get; set; }
         public string? Image { get; set; }
 
