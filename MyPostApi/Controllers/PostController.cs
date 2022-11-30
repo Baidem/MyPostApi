@@ -50,5 +50,17 @@ namespace MyPostApi.Controllers
                 return Problem("Post not created");
         }
 
+        [HttpPut]
+        public async Task<ActionResult<Post>> ModifyPost(Post param)
+        {
+            var postModified = await postRepository.ModifyPostAsync(param);
+
+            if (postModified != null)
+                return Ok(postModified);
+            else
+                return Problem("Post not modified");
+        }
+
+
     }
 }

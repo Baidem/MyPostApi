@@ -13,5 +13,6 @@ namespace Repositories.Contracts
         Task<Post?> GetPostAsync(int id);
         Task<Post?> GetPostWithCommentsAsync(int id);
         Task<Post> AddPostAsync(Post post);
+        Task<Post?> ModifyPostAsync(Post post);
     }
 }

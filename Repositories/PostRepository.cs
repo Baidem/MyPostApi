@@ -15,10 +15,10 @@ namespace Repositories
         MyPostApiContext context;
         ILogger<PostRepository> logger;
 
-        public PostRepository(MyPostApiContext context, ILogger<PostRepository> logger )
+        public PostRepository(MyPostApiContext context, ILogger<PostRepository> logger)
         {
             this.context = context;
-            this .logger = logger;
+            this.logger = logger;
         }
         public async Task<List<Post>> GetAllPostsAsync()
         {
@@ -28,7 +28,7 @@ namespace Repositories
         {
             return await context.Posts.FindAsync(id);
         }
-        public  Task<Post?> GetPostWithCommentsAsync(int id)
+        public Task<Post?> GetPostWithCommentsAsync(int id)
         {
             return context.Posts.Include(p => p.Comments).FirstOrDefaultAsync(p => p.Id == id);
         }
@@ -49,6 +49,38 @@ namespace Repositories
             }
             return post;
         }
+
+        public async Task<Post?> ModifyPostAsync(Post param)
+        {
+            try
+            {
+                Post? post = context.Posts.Find(param.Id);
+                if (post != null)
+                {
+                    post.Title = param.Title;
+                    post.UserId = param.UserId;
+                    post.Content = param.Content;
+                    post.Image = param.Image;
+                    post.EditedDate = DateTime.Now;
+
+                    await context.SaveChangesAsync();
+                    return post;
+                }
+                else
+                {
+                    logger.LogError("Item not found");
+
+                    return null;
+                }
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e?.InnerException?.ToString());
+
+                return null;
+            }
+        }
+
     }
 }
 
