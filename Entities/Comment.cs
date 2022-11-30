@@ -13,9 +13,8 @@ namespace Entities
         public int Id { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime EditedDate { get; set; }
-        [Required]
         [Column("AuthorId")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public User User { get; set; }
         [Required]
         [StringLength(100)]

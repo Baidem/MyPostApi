@@ -12,15 +12,14 @@ namespace Entities
     {
         public int Id { get; set; }
         public string Title { get; set; }
-        [Required]
         [Column("AuthorId")]
-        public int UserId { get; set; }
+        public int? UserId { get; set; }
         public User User { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime EditedDate { get; set; }
         public string Content { get; set; }
         public List<Comment> Comments { get; set; }
-        public string Image { get; set; }
+        public string? Image { get; set; }
 
     }   
 }
