@@ -5,6 +5,7 @@ using Repositories.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -104,5 +105,16 @@ namespace Repositories
                 return null;
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="password"></param>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        public async Task<User> LoginUser(string email, string password)
+        {
+            return context.Users.Where(u => u.Password == password && u.Email == email).FirstOrDefault();
+        }
+
     }
 }

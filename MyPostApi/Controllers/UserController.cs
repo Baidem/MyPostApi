@@ -1,8 +1,12 @@
 ﻿using Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Repositories;
 using Repositories.Contracts;
+using System.ComponentModel;
+using System.Security.Claims;
 
 namespace MyPostApi.Controllers
 {
@@ -13,7 +17,7 @@ namespace MyPostApi.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        
+
         IUserRepository userRepository;
 
         public UserController(IUserRepository userRepository)
@@ -66,6 +70,33 @@ namespace MyPostApi.Controllers
                 return Ok(userRemoved);
             else
                 return Problem("User not removed");
+        }
+        [HttpGet]
+        public async Task<IActionResult> LoginAsync(
+            [DefaultValue("Jerry.Seinfeld@aol.com")] string login,
+            [DefaultValue("password")] string pwd)
+        {
+            var UserCreated = await userRepository.LoginUser(login, pwd);
+            if (UserCreated == null)
+                return Problem($"Erreur lors du login, vérifiez le login ou mot de passe");
+            Claim emailClaim = new(ClaimTypes.Email, UserCreated.Email);
+            Claim nameClaim = new(ClaimTypes.Name, UserCreated.LastName);
+            Claim gvClaim = new(ClaimTypes.GivenName, UserCreated.FirstName);
+            Claim idClaim = new(ClaimTypes.NameIdentifier, UserCreated.Id.ToString());
+            ClaimsIdentity identity = new(new List<Claim> {
+                        emailClaim,
+                        nameClaim,
+                        gvClaim,
+                        idClaim
+                    }, CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(identity));
+            return Ok($"{UserCreated.LastName} logged");
+        }
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync();
+            return Ok("Logout");
         }
 
     }
