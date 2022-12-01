@@ -24,16 +24,8 @@ builder.Services.AddDbContext<MyPostApiContext>(o =>
 });
 
 
-// Forcer les migrations en attentes (évite de faire le update-database)
-//using (var serviceScope = app.Services.CreateScope())
-//{
-//    var services = serviceScope.ServiceProvider;
-//    var wikyContext = services.GetRequiredService<WikyContext>();
-//    wikyContext.Database.Migrate();
 
-//    //wikyContext.Database.EnsureDeleted(); // Efface la Db
-//    //wikyContext.Database.EnsureCreated(); // Recrer la Db sans prendre en compte les migrations
-//}
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -48,10 +40,6 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();  // Fix scope Use
 
 var app = builder.Build();
 
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
-
-app.UseAuthentication();
-app.UseAuthorization();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -60,10 +48,24 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+// Forcer les migrations en attentes (évite de faire le update-database)
+using (var serviceScope = app.Services.CreateScope())
+{
+    var services = serviceScope.ServiceProvider;
+    var myPostApiContext = services.GetRequiredService<MyPostApiContext>();
+    myPostApiContext.Database.Migrate();
+
+    //myPostApiContext.Database.EnsureDeleted(); // Efface la Db
+    //myPostApiContext.Database.EnsureCreated(); // Recrer la Db sans prendre en compte les migrations
+}
 
 app.Run();
