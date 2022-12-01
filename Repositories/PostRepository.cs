@@ -107,6 +107,14 @@ namespace Repositories
                 return null;
             }
         }
+
+        public async Task<bool?> AddPostViewAsync(int idPost, String image)
+        {
+            var post = await GetPostAsync(idPost);
+            post.Image = image;
+            await context.SaveChangesAsync();
+            return true;
+        }
     }
 }
 

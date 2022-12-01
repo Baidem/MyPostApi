@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using Repositories;
 using Repositories.Contracts;
 
 namespace MyPostApi.Controllers
@@ -70,6 +71,16 @@ namespace MyPostApi.Controllers
                 return Ok(postRemoved);
             else
                 return Problem("Post not removed");
+        }
+        [HttpGet]
+        public async Task<IActionResult> AddPostViewAsync([FromForm] AddPostViewModel addPostViewModel)
+        {
+            if (addPostViewModel != null && addPostViewModel.IdPost != null && addPostViewModel.Picture != null)
+            {
+                await postRepository.AddPostViewAsync(addPostViewModel.IdPost, addPostViewModel.Picture.FileName);
+            }
+
+            return Ok(addPostViewModel);
         }
     }
 }
