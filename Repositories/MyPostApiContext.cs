@@ -34,10 +34,10 @@ namespace Repositories
             var u3 = new User { Id = 3, FirstName = "Elaine", LastName = "Benes", Email = "Elaine.Benes@aol.com", Password = "jerry" };
             var u4 = new User { Id = 4, FirstName = "Cosmo", LastName = "Kramer", Email = "Cosmo.Kramer@aol.com", Password = "qzerty" };
 
-            var p1 = new Post { Id = 1, Title = "Les tables à café", Content = "Toute l'histoire des tables à café ...", CreatedDate = DateTime.Now, UserId =  4};
-            var p2 = new Post { Id = 2, Title = "Title 2", Content = "Content 2 ...", CreatedDate = DateTime.Now, UserId = 1 };
-            var p3 = new Post { Id = 3, Title = "Title 3", Content = "Content 3 ...", CreatedDate = DateTime.Now, UserId = 2 };
-            var p4 = new Post { Id = 4, Title = "Title 4", Content = "Content 4 ...", CreatedDate = DateTime.Now, UserId = 3 };
+            var p1 = new Post { Id = 1, Theme = "CULTURE", Title = "Les tables à café", Content = "Toute l'histoire des tables à café ...", CreatedDate = DateTime.Now, UserId =  4};
+            var p2 = new Post { Id = 2, Theme = "SOCIAL", Title = "Les bons amis", Content = "Comment trouver de nouveaux meilleurs amis ...", CreatedDate = DateTime.Now, UserId = 3 };
+            var p3 = new Post { Id = 3, Theme = "SPORT", Title = "Yankee's Stadium", Content = "Comment gérer le bus des Yankees ...", CreatedDate = DateTime.Now, UserId = 2 };
+            var p4 = new Post { Id = 4, Theme = "CULTURE", Title = "Les comédies club", Content = "Les comédies club de NY ...", CreatedDate = DateTime.Now, UserId = 1 };
 
             var c1 = new Comment { Id = 1, Content = "Comment 1 ...", CreatedDate = DateTime.Now, UserId = 2, PostId = 3 };
             var c2 = new Comment { Id = 2, Content = "Comment 2 ...", CreatedDate = DateTime.Now, UserId = 3, PostId = 4 };
