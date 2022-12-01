@@ -12,8 +12,8 @@ using Repositories;
 namespace Repositories.Migrations
 {
     [DbContext(typeof(MyPostApiContext))]
-    [Migration("20221130120038_EntityPostNullable")]
-    partial class EntityPostNullable
+    [Migration("20221201132300_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -34,17 +34,16 @@ namespace Repositories.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Content")
-                        .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EditedDate")
+                    b.Property<DateTime?>("EditedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("int");
 
                     b.Property<int?>("UserId")
@@ -64,8 +63,7 @@ namespace Repositories.Migrations
                         {
                             Id = 1,
                             Content = "Comment 1 ...",
-                            CreatedDate = new DateTime(2022, 11, 30, 13, 0, 38, 627, DateTimeKind.Local).AddTicks(8759),
-                            EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2122),
                             PostId = 3,
                             UserId = 2
                         },
@@ -73,8 +71,7 @@ namespace Repositories.Migrations
                         {
                             Id = 2,
                             Content = "Comment 2 ...",
-                            CreatedDate = new DateTime(2022, 11, 30, 13, 0, 38, 627, DateTimeKind.Local).AddTicks(8762),
-                            EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2125),
                             PostId = 4,
                             UserId = 3
                         },
@@ -82,8 +79,7 @@ namespace Repositories.Migrations
                         {
                             Id = 3,
                             Content = "Comment 3 ...",
-                            CreatedDate = new DateTime(2022, 11, 30, 13, 0, 38, 627, DateTimeKind.Local).AddTicks(8764),
-                            EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2127),
                             PostId = 2,
                             UserId = 1
                         },
@@ -91,8 +87,7 @@ namespace Repositories.Migrations
                         {
                             Id = 4,
                             Content = "Comment 4 ...",
-                            CreatedDate = new DateTime(2022, 11, 30, 13, 0, 38, 627, DateTimeKind.Local).AddTicks(8765),
-                            EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2129),
                             PostId = 1,
                             UserId = 4
                         });
@@ -109,13 +104,16 @@ namespace Repositories.Migrations
                     b.Property<string>("Content")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("CreatedDate")
+                    b.Property<DateTime?>("CreatedDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateTime>("EditedDate")
+                    b.Property<DateTime?>("EditedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Image")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Theme")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Title")
@@ -137,37 +135,37 @@ namespace Repositories.Migrations
                         {
                             Id = 1,
                             Content = "Toute l'histoire des tables à café ...",
-                            CreatedDate = new DateTime(2022, 11, 30, 13, 0, 38, 627, DateTimeKind.Local).AddTicks(8709),
-                            EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(1975),
+                            Theme = "CULTURE",
                             Title = "Les tables à café",
                             UserId = 4
                         },
                         new
                         {
                             Id = 2,
-                            Content = "Content 2 ...",
-                            CreatedDate = new DateTime(2022, 11, 30, 13, 0, 38, 627, DateTimeKind.Local).AddTicks(8752),
-                            EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Title 2",
-                            UserId = 1
+                            Content = "Comment trouver de nouveaux meilleurs amis ...",
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2114),
+                            Theme = "SOCIAL",
+                            Title = "Les bons amis",
+                            UserId = 3
                         },
                         new
                         {
                             Id = 3,
-                            Content = "Content 3 ...",
-                            CreatedDate = new DateTime(2022, 11, 30, 13, 0, 38, 627, DateTimeKind.Local).AddTicks(8754),
-                            EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Title 3",
+                            Content = "Comment gérer le bus des Yankees ...",
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2117),
+                            Theme = "SPORT",
+                            Title = "Yankee's Stadium",
                             UserId = 2
                         },
                         new
                         {
                             Id = 4,
-                            Content = "Content 4 ...",
-                            CreatedDate = new DateTime(2022, 11, 30, 13, 0, 38, 627, DateTimeKind.Local).AddTicks(8756),
-                            EditedDate = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            Title = "Title 4",
-                            UserId = 3
+                            Content = "Les comédies club de NY ...",
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2119),
+                            Theme = "CULTURE",
+                            Title = "Les comédies club",
+                            UserId = 1
                         });
                 });
 
@@ -180,19 +178,15 @@ namespace Repositories.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Email")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Password")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -238,9 +232,7 @@ namespace Repositories.Migrations
                 {
                     b.HasOne("Entities.Post", "Post")
                         .WithMany("Comments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("PostId");
 
                     b.HasOne("Entities.User", "User")
                         .WithMany()

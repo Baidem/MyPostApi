@@ -19,10 +19,10 @@ namespace Repositories.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -36,10 +36,11 @@ namespace Repositories.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Theme = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     AuthorId = table.Column<int>(type: "int", nullable: true),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EditedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EditedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Image = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
@@ -58,11 +59,11 @@ namespace Repositories.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EditedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    EditedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
                     AuthorId = table.Column<int>(type: "int", nullable: true),
-                    Content = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
-                    PostId = table.Column<int>(type: "int", nullable: false)
+                    Content = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: true),
+                    PostId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -71,8 +72,7 @@ namespace Repositories.Migrations
                         name: "FK_Comments_Posts_PostId",
                         column: x => x.PostId,
                         principalTable: "Posts",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Comments_Users_AuthorId",
                         column: x => x.AuthorId,
@@ -93,13 +93,13 @@ namespace Repositories.Migrations
 
             migrationBuilder.InsertData(
                 table: "Posts",
-                columns: new[] { "Id", "Content", "CreatedDate", "EditedDate", "Image", "Title", "AuthorId" },
+                columns: new[] { "Id", "Content", "CreatedDate", "EditedDate", "Image", "Theme", "Title", "AuthorId" },
                 values: new object[,]
                 {
-                    { 1, "Toute l'histoire des tables à café ...", new DateTime(2022, 11, 30, 9, 18, 0, 767, DateTimeKind.Local).AddTicks(8263), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Les tables à café", 4 },
-                    { 2, "Content 2 ...", new DateTime(2022, 11, 30, 9, 18, 0, 767, DateTimeKind.Local).AddTicks(8307), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Title 2", 1 },
-                    { 3, "Content 3 ...", new DateTime(2022, 11, 30, 9, 18, 0, 767, DateTimeKind.Local).AddTicks(8310), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Title 3", 2 },
-                    { 4, "Content 4 ...", new DateTime(2022, 11, 30, 9, 18, 0, 767, DateTimeKind.Local).AddTicks(8349), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), null, "Title 4", 3 }
+                    { 1, "Toute l'histoire des tables à café ...", new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(1975), null, null, "CULTURE", "Les tables à café", 4 },
+                    { 2, "Comment trouver de nouveaux meilleurs amis ...", new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2114), null, null, "SOCIAL", "Les bons amis", 3 },
+                    { 3, "Comment gérer le bus des Yankees ...", new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2117), null, null, "SPORT", "Yankee's Stadium", 2 },
+                    { 4, "Les comédies club de NY ...", new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2119), null, null, "CULTURE", "Les comédies club", 1 }
                 });
 
             migrationBuilder.InsertData(
@@ -107,10 +107,10 @@ namespace Repositories.Migrations
                 columns: new[] { "Id", "Content", "CreatedDate", "EditedDate", "PostId", "AuthorId" },
                 values: new object[,]
                 {
-                    { 1, "Comment 1 ...", new DateTime(2022, 11, 30, 9, 18, 0, 767, DateTimeKind.Local).AddTicks(8353), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 3, 2 },
-                    { 2, "Comment 2 ...", new DateTime(2022, 11, 30, 9, 18, 0, 767, DateTimeKind.Local).AddTicks(8355), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 4, 3 },
-                    { 3, "Comment 3 ...", new DateTime(2022, 11, 30, 9, 18, 0, 767, DateTimeKind.Local).AddTicks(8358), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 2, 1 },
-                    { 4, "Comment 4 ...", new DateTime(2022, 11, 30, 9, 18, 0, 767, DateTimeKind.Local).AddTicks(8360), new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1, 4 }
+                    { 1, "Comment 1 ...", new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2122), null, 3, 2 },
+                    { 2, "Comment 2 ...", new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2125), null, 4, 3 },
+                    { 3, "Comment 3 ...", new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2127), null, 2, 1 },
+                    { 4, "Comment 4 ...", new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2129), null, 1, 4 }
                 });
 
             migrationBuilder.CreateIndex(

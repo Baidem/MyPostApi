@@ -60,7 +60,7 @@ namespace Repositories.Migrations
                         {
                             Id = 1,
                             Content = "Comment 1 ...",
-                            CreatedDate = new DateTime(2022, 12, 1, 11, 27, 25, 565, DateTimeKind.Local).AddTicks(1373),
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2122),
                             PostId = 3,
                             UserId = 2
                         },
@@ -68,7 +68,7 @@ namespace Repositories.Migrations
                         {
                             Id = 2,
                             Content = "Comment 2 ...",
-                            CreatedDate = new DateTime(2022, 12, 1, 11, 27, 25, 565, DateTimeKind.Local).AddTicks(1376),
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2125),
                             PostId = 4,
                             UserId = 3
                         },
@@ -76,7 +76,7 @@ namespace Repositories.Migrations
                         {
                             Id = 3,
                             Content = "Comment 3 ...",
-                            CreatedDate = new DateTime(2022, 12, 1, 11, 27, 25, 565, DateTimeKind.Local).AddTicks(1378),
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2127),
                             PostId = 2,
                             UserId = 1
                         },
@@ -84,7 +84,7 @@ namespace Repositories.Migrations
                         {
                             Id = 4,
                             Content = "Comment 4 ...",
-                            CreatedDate = new DateTime(2022, 12, 1, 11, 27, 25, 565, DateTimeKind.Local).AddTicks(1380),
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2129),
                             PostId = 1,
                             UserId = 4
                         });
@@ -132,33 +132,37 @@ namespace Repositories.Migrations
                         {
                             Id = 1,
                             Content = "Toute l'histoire des tables à café ...",
-                            CreatedDate = new DateTime(2022, 12, 1, 11, 27, 25, 565, DateTimeKind.Local).AddTicks(1321),
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(1975),
+                            Theme = "CULTURE",
                             Title = "Les tables à café",
                             UserId = 4
                         },
                         new
                         {
                             Id = 2,
-                            Content = "Content 2 ...",
-                            CreatedDate = new DateTime(2022, 12, 1, 11, 27, 25, 565, DateTimeKind.Local).AddTicks(1367),
-                            Title = "Title 2",
-                            UserId = 1
+                            Content = "Comment trouver de nouveaux meilleurs amis ...",
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2114),
+                            Theme = "SOCIAL",
+                            Title = "Les bons amis",
+                            UserId = 3
                         },
                         new
                         {
                             Id = 3,
-                            Content = "Content 3 ...",
-                            CreatedDate = new DateTime(2022, 12, 1, 11, 27, 25, 565, DateTimeKind.Local).AddTicks(1369),
-                            Title = "Title 3",
+                            Content = "Comment gérer le bus des Yankees ...",
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2117),
+                            Theme = "SPORT",
+                            Title = "Yankee's Stadium",
                             UserId = 2
                         },
                         new
                         {
                             Id = 4,
-                            Content = "Content 4 ...",
-                            CreatedDate = new DateTime(2022, 12, 1, 11, 27, 25, 565, DateTimeKind.Local).AddTicks(1370),
-                            Title = "Title 4",
-                            UserId = 3
+                            Content = "Les comédies club de NY ...",
+                            CreatedDate = new DateTime(2022, 12, 1, 14, 22, 59, 946, DateTimeKind.Local).AddTicks(2119),
+                            Theme = "CULTURE",
+                            Title = "Les comédies club",
+                            UserId = 1
                         });
                 });
 
