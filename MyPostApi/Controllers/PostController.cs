@@ -11,10 +11,13 @@ namespace MyPostApi.Controllers
     [ApiController]
     public class PostController : ControllerBase
     {
+        IWebHostEnvironment environment;
+
         IPostRepository postRepository;
-        public PostController(IPostRepository postRepository)
+        public PostController(IPostRepository postRepository, IWebHostEnvironment environment)
         {
             this.postRepository = postRepository;
+            this.environment = environment;
         }
 
         [HttpGet]
@@ -72,15 +75,29 @@ namespace MyPostApi.Controllers
             else
                 return Problem("Post not removed");
         }
-        [HttpGet]
-        public async Task<IActionResult> AddPostViewAsync([FromForm] AddPostViewModel addPostViewModel)
+        [HttpPost]
+        public async Task<IActionResult> AddPostImage([FromForm] AddPostImageModel addPostImageModel)
         {
-            if (addPostViewModel != null && addPostViewModel.IdPost != null && addPostViewModel.Picture != null)
+            if (addPostImageModel != null && addPostImageModel.PostId != null && addPostImageModel.Image != null)
             {
-                await postRepository.AddPostViewAsync(addPostViewModel.IdPost, addPostViewModel.Picture.FileName);
+                await postRepository.AddPostImageAsync(addPostImageModel.PostId, addPostImageModel.Image.FileName);
+            }
+            if (!string.IsNullOrEmpty(addPostImageModel.Image?.FileName) && addPostImageModel.Image.FileName.Length > 0)
+            {
+                var path = Path.Combine(environment.WebRootPath, "Images/", addPostImageModel.Image.FileName); using (FileStream stream = new FileStream(path, FileMode.Create))
+                {
+                    await addPostImageModel.Image.CopyToAsync(stream); stream.Close();
+                }
             }
 
-            return Ok(addPostViewModel);
+            return Ok(addPostImageModel);
+        }
+        [HttpGet]
+        public async Task<ActionResult<List<Post>>>? GetPostsByTheme(string theme)
+        {
+            var postsByThemes = await postRepository.GetPostByThemeAsync(theme);
+
+            return postsByThemes;
         }
     }
 }

@@ -10,9 +10,9 @@ using Microsoft.AspNetCore.Http;
 
 namespace Entities
 {
-    public class AddPostViewModel
+    public class AddPostImageModel
     {
-        public IFormFile Picture { get; set; }
-        public int IdPost { get; set; }
+        public IFormFile Image { get; set; }
+        public int PostId { get; set; }
     }
 }

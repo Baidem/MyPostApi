@@ -15,6 +15,7 @@ namespace Repositories.Contracts
         Task<Post> AddPostAsync(Post post);
         Task<Post?> ModifyPostAsync(Post post);
         Task<Post?> RemovePostAsync(int id);
-        Task<bool?> AddPostViewAsync(int idPost, String image);
+        Task<Post?> AddPostImageAsync(int idPost, String image);
+        Task<List<Post>>? GetPostByThemeAsync(string theme);
     }
 }

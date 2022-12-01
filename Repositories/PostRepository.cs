@@ -5,6 +5,7 @@ using Repositories.Contracts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -12,8 +13,10 @@ namespace Repositories
 {
     public class PostRepository : IPostRepository
     {
+
         MyPostApiContext context;
         ILogger<PostRepository> logger;
+
 
         public PostRepository(MyPostApiContext context, ILogger<PostRepository> logger)
         {
@@ -108,12 +111,24 @@ namespace Repositories
             }
         }
 
-        public async Task<bool?> AddPostViewAsync(int idPost, String image)
+        public async Task<Post?> AddPostImageAsync(int idPost, String image)
         {
-            var post = await GetPostAsync(idPost);
-            post.Image = image;
-            await context.SaveChangesAsync();
-            return true;
+            var ModifiedPost = await GetPostAsync(idPost);
+            if (ModifiedPost == null)
+                return null;
+            else
+            {
+                ModifiedPost.Image = image;
+                await context.SaveChangesAsync();
+                return ModifiedPost;
+            }
+
+        }
+
+        public async Task<List<Post>>? GetPostByThemeAsync(string theme)
+        {
+            var postsByThemes = await context.Posts.Where(p => p.Theme == theme).ToListAsync();
+            return postsByThemes;
         }
     }
 }
