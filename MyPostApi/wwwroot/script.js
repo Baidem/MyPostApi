@@ -61,6 +61,42 @@ userByIdButton.addEventListener('click', () => { // Start the process
         });
 });
 
+//usersTableButton.addEventListener('click', () => { // Start the process
+//    fetch(allUserRequest, myInit)
+//        .then(function (response) {
+//            return response.json();
+//        })
+//        .then(function (data) {
+//            let users = document.querySelector("#users");
+//            users.textContent = "";
+//            for (let i = 0; i < data.length; i++) {
+
+//                let row = document.createElement("tr");
+
+//                let firstCell = document.createElement("td");
+//                let textFirstCell = document.createTextNode(`${data[i].firstName}`);
+//                row.appendChild(firstCell);
+//                firstCell.appendChild(textFirstCell);
+
+//                let secondCell = document.createElement("td");
+//                let textSecondCell = document.createTextNode(`${data[i].lastName}`);
+//                row.appendChild(secondCell);
+//                secondCell.appendChild(textSecondCell);
+
+//                let thirdCell = document.createElement("td");
+//                let textThirdCell = document.createTextNode(`${data[i].email}`);
+//                row.appendChild(thirdCell);
+//                thirdCell.appendChild(textThirdCell);
+
+//                users.appendChild(row);
+//            }
+//        })
+//        .catch(function (err) {
+//            console.log(err);
+//        });
+
+//});
+
 usersTableButton.addEventListener('click', () => { // Start the process
     fetch(allUserRequest, myInit)
         .then(function (response) {
@@ -71,22 +107,13 @@ usersTableButton.addEventListener('click', () => { // Start the process
             users.textContent = "";
             for (let i = 0; i < data.length; i++) {
                 let row = document.createElement("tr");
-                
-                let firstCell = document.createElement("td");
-                let textFirstCell = document.createTextNode(`${data[i].firstName}`);
-                row.appendChild(firstCell);
-                firstCell.appendChild(textFirstCell);
-
-                let secondCell = document.createElement("td");
-                let textSecondCell = document.createTextNode(`${data[i].lastName}`);
-                row.appendChild(secondCell);
-                secondCell.appendChild(textSecondCell);
-
-                let thirdCell = document.createElement("td");
-                let textThirdCell = document.createTextNode(`${data[i].email}`);
-                row.appendChild(thirdCell);
-                thirdCell.appendChild(textThirdCell);
-
+                for (let j in data[i]) {
+                    let cell = document.createElement("td");
+                    let textCell;
+                    textCell = document.createTextNode(`${data[i][j]}`);
+                    row.appendChild(cell);
+                    cell.appendChild(textCell);
+                }
                 users.appendChild(row);
             }
         })
