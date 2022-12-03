@@ -39,10 +39,19 @@ namespace MyPostApi.Controllers
             return Ok(userDto);
         }
 
+        /// <summary>
+        /// {
+        ///     "firstName": "Norman",
+        ///     "lastName": "Newman",
+        ///     "email": "norman.newman@aol.com"
+        /// }
+        /// </summary>
+        /// <param name="userDto"></param>
+        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<User>> AddUser(User user)
+        public async Task<ActionResult<UserDto>> AddUser(UserDto userDto)
         {
-            var userCreated = await userRepository.AddUserAsync(user);
+            var userCreated = await userRepository.AddUserAsync(userDto);
 
             if (userCreated != null)
                 return Ok(userCreated);
