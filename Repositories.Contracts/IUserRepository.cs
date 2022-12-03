@@ -12,7 +12,7 @@ namespace Repositories.Contracts
     public interface IUserRepository
     {
         Task<List<UserDto>> GetAllUsersAsync();
-        Task<User?> GetUserAsync(int id);
+        Task<UserDto?> GetUserAsync(int id);
         Task<User> AddUserAsync(User user);
         Task<User?> ModifyUserAsync(User param);
         Task<User?> RemoveUserAsync(int id);

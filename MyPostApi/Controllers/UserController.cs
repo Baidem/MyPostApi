@@ -32,11 +32,11 @@ namespace MyPostApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<User>> GetUser(int id)
+        public async Task<ActionResult<UserDto>> GetUser(int id)
         {
-            var user = await userRepository.GetUserAsync(id);
+            var userDto = await userRepository.GetUserAsync(id);
 
-            return Ok(user);
+            return Ok(userDto);
         }
 
         [HttpPost]

@@ -22,6 +22,12 @@ namespace Repositories
             this.context = context;
             this.logger = logger;
         }
+        private UserDto ConvertUserToDto(User user)
+        {
+            var userDto = new UserDto { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email};
+
+            return userDto;
+        }
 
         public async Task<List<UserDto>> GetAllUsersAsync()
         {
@@ -34,16 +40,17 @@ namespace Repositories
             return userDtoList;
         }
 
-        private UserDto ConvertUserToDto(User user)
-        {
-            var userDto = new UserDto { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email};
 
-            return userDto;
-        }
-
-        public async Task<User?> GetUserAsync(int id)
+        public async Task<UserDto?> GetUserAsync(int id)
         {
-            return await context.Users.FindAsync(id);
+            var user = await context.Users.FindAsync(id);
+            if (user == null)
+                return null;
+            else
+            {
+                var userDto = ConvertUserToDto(user);
+                return userDto;
+            }
         }
 
         public async Task<User?> AddUserAsync(User user)
