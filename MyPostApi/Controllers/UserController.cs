@@ -39,25 +39,23 @@ namespace MyPostApi.Controllers
             return Ok(userDto);
         }
 
-        /// <summary>
-        /// {
-        ///     "firstName": "Norman",
-        ///     "lastName": "Newman",
-        ///     "email": "norman.newman@aol.com"
-        /// }
-        /// </summary>
-        /// <param name="userDto"></param>
-        /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<UserDto>> AddUser(UserDto userDto)
+        public async Task<ActionResult<UserDto>> AddUser(string firstName, string lastName, string email, string? password)
         {
-            var userCreated = await userRepository.AddUserAsync(userDto);
+            UserDto userDto = new UserDto
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email
+            };
+            var userCreated = await userRepository.AddUserAsync(userDto, password);
 
             if (userCreated != null)
                 return Ok(userCreated);
             else
                 return Problem("User not created");
         }
+
         [HttpPut]
         public async Task<ActionResult<User>> ModifyUser(User param)
         {

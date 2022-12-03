@@ -61,11 +61,13 @@ namespace Repositories
             }
         }
 
-        public async Task<UserDto?> AddUserAsync(UserDto userDto)
+        public async Task<UserDto?> AddUserAsync(UserDto userDto, string? password)
         {
             try
             {
                 var user = convertUserDtoToUser(userDto);
+                if (password != null)
+                    user.Password = password;
                 await context.Users.AddAsync(user);
 
                 await context.SaveChangesAsync();

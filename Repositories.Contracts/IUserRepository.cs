@@ -13,7 +13,7 @@ namespace Repositories.Contracts
     {
         Task<List<UserDto>> GetAllUsersAsync();
         Task<UserDto?> GetUserAsync(int id);
-        Task<UserDto?> AddUserAsync(UserDto userDto);
+        Task<UserDto?> AddUserAsync(UserDto userDto, string? password);
         Task<User?> ModifyUserAsync(User param);
         Task<User?> RemoveUserAsync(int id);
         Task<User> LoginUser(string login, string pwd);
