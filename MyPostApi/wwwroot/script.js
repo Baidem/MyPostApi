@@ -1,7 +1,10 @@
 ﻿let shortAdress = "https://localhost:7216/";
-let myRequest = new Request(shortAdress + "User/GetAllUsers");
+let allUserRequest = new Request(shortAdress + "User/GetAllUsers");
 let myHeaders = new Headers();
 const usersButton = document.querySelector('#users_button');
+const usersTableButton = document.querySelector('#users_table_button');
+const userByIdButton = document.querySelector('#user_id_button');
+const userId = document.querySelector('#input_user_id');
 
 myHeaders.append("Content-Type", "application/json; charset=utf-8");
 
@@ -14,13 +17,13 @@ let myInit = {
 
 
 usersButton.addEventListener('click', () => { // Start the process
-
-    fetch(myRequest, myInit)
+    fetch(allUserRequest, myInit)
         .then(function (response) {
             return response.json();
         })
         .then(function (data) {
             let list = document.querySelector("#list");
+            list.textContent = "";
             for (let i = 0; i < data.length; i++) {
                 let node = document.createElement("li");
                 let textnode = document.createTextNode(`${data[i].firstName} ${data[i].lastName}`);
@@ -31,110 +34,64 @@ usersButton.addEventListener('click', () => { // Start the process
         .catch(function (err) {
             console.log(err);
         });
-
 });
 
-////Classe de Français
-//let frenchClassroom =
-//{
-//    "name": "Français",
-//    "floor": 5,
-//    "corridor": "Salle Homer Simpson"
-//};
+userByIdButton.addEventListener('click', () => { // Start the process
+    console.log(userId.value);
+    let userByIdRequest = new Request(shortAdress + "User/GetUser/" + userId.value);
 
-////Ajouter la classe de français
-//let frenchId = 10;
-//myInit = {
-//    method: "POST",
-//    body: JSON.stringify(frenchClassroom),
-//    headers: myHeaders,
-//    credentials: "include"
-//};
+    let listoff = document.querySelector('#list');
+    listoff.textContent = "";
 
-//fetch(myRequest, myInit)
-//    .then(function (response) {
-//        console.log(response);
-//        return response.json();
-//    })
-//    .then(function (data) {
-//        console.log(data);
-//        let list = document.querySelector("#post");
-//        let node = document.createElement("li");
-//        let textnode = document.createTextNode(`${data.name} ${data.floor} ${data.corridor}`);
-//        node.appendChild(textnode);
-//        list.appendChild(node);
-//        frenchId = +data.classroomId;
-//        console.log(frenchId);
-//    })
-//    .catch(function (err) {
-//        console.log(err);
-//    });
-////Modifier la classe de français
-////LE PUT!!
+    fetch(userByIdRequest, myInit)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            let list = document.querySelector("#user");
+            list.textContent = "";
+            console.log(data);
+            let node = document.createElement("li");
+            let textnode = document.createTextNode(`${data.firstName}`);
+            node.appendChild(textnode);
+            list.appendChild(node);
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
+});
 
-//frenchClassroom =
-//{
-//    "name": "Français",
-//    "floor": 4,
-//    "corridor": "Salle Bart Simpson"
-//}
-//console.log(frenchId);
+usersTableButton.addEventListener('click', () => { // Start the process
+    fetch(allUserRequest, myInit)
+        .then(function (response) {
+            return response.json();
+        })
+        .then(function (data) {
+            let users = document.querySelector("#users");
+            users.textContent = "";
+            for (let i = 0; i < data.length; i++) {
+                let row = document.createElement("tr");
+                
+                let firstCell = document.createElement("td");
+                let textFirstCell = document.createTextNode(`${data[i].firstName}`);
+                row.appendChild(firstCell);
+                firstCell.appendChild(textFirstCell);
 
-//myRequest = new Request(shortAdress + "Class/" + frenchId);
-//console.log(myRequest);
-//myHeaders.append("Content-Type", "application/json; charset=utf-8");
+                let secondCell = document.createElement("td");
+                let textSecondCell = document.createTextNode(`${data[i].lastName}`);
+                row.appendChild(secondCell);
+                secondCell.appendChild(textSecondCell);
 
-//myInit = {
-//    method: "PUT",
-//    body: JSON.stringify(frenchClassroom),
-//    headers: myHeaders,
-//    credentials: "include"
-//};
+                let thirdCell = document.createElement("td");
+                let textThirdCell = document.createTextNode(`${data[i].email}`);
+                row.appendChild(thirdCell);
+                thirdCell.appendChild(textThirdCell);
 
-//fetch(myRequest, myInit)
-//    //fetch("https://localhost:5001/Class/28", myInit)
-//    .then(function (response) {
-//        console.log(response);
-//        return response.json();
-//    })
-//    .then(function (data) {
-//        console.log(data);
-//        let list = document.querySelector("#put");
-//        let node = document.createElement("li");
-//        let textnode = document.createTextNode(`${data.name} ${data.floor} ${data.corridor}`);
-//        node.appendChild(textnode);
-//        list.appendChild(node);
-//    })
+                users.appendChild(row);
+            }
+        })
+        .catch(function (err) {
+            console.log(err);
+        });
 
-//    .catch(function (err) {
-//        console.log(err);
-//    });
-
-////LE DELETE!!
-//idToDelete = 15;
-//myRequest = new Request(shortAdress + "Class/" + idToDelete);
-
-//myInit = {
-//    method: "DELETE",
-//    //body: JSON.stringify(myObject),
-//    headers: myHeaders,
-//    credentials: "include"
-//};
-
-//fetch(myRequest, myInit)
-//    .then(function (response) {
-//        console.log(response);
-//        return response.json();
-//    })
-//    .then(function (data) {
-//        console.log(data);
-//        let list = document.querySelector("#delete");
-//        let node = document.createElement("li");
-//        let textnode = document.createTextNode(`${data.classroomId} ${data.name}`);
-//        node.appendChild(textnode);
-//        list.appendChild(node);
-//    })
-
-//    .catch(function (err) {
-//        console.log(err);
-//    });
+});
