@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Dto;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Repositories.Contracts
 {
     public interface IUserRepository
     {
-        Task<List<User>> GetAllUsersAsync();
+        Task<List<UserDto>> GetAllUsersAsync();
         Task<User?> GetUserAsync(int id);
         Task<User> AddUserAsync(User user);
         Task<User?> ModifyUserAsync(User param);

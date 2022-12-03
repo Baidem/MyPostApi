@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Dto;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Repositories.Contracts;
@@ -22,9 +23,22 @@ namespace Repositories
             this.logger = logger;
         }
 
-        public async Task<List<User>> GetAllUsersAsync()
+        public async Task<List<UserDto>> GetAllUsersAsync()
         {
-            return await context.Users.ToListAsync();
+            List<User> users = await context.Users.ToListAsync();
+            List<UserDto> userDtoList = new List<UserDto>();
+            foreach (var user in users)
+            {
+                userDtoList.Add(ConvertUserToDto(user));
+            }
+            return userDtoList;
+        }
+
+        private UserDto ConvertUserToDto(User user)
+        {
+            var userDto = new UserDto { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email};
+
+            return userDto;
         }
 
         public async Task<User?> GetUserAsync(int id)

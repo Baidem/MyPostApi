@@ -1,4 +1,5 @@
 ﻿using Entities;
+using Dto;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Http;
@@ -10,9 +11,6 @@ using System.Security.Claims;
 
 namespace MyPostApi.Controllers
 {
-    /// <summary>
-    /// 
-    /// </summary>
     [Route("[controller]/[Action]")]
     [ApiController]
     public class UserController : ControllerBase
@@ -25,13 +23,12 @@ namespace MyPostApi.Controllers
             this.userRepository = userRepository;
         }
 
-
         [HttpGet]
-        public async Task<ActionResult<List<User>>> GetAllUsers()
+        public async Task<ActionResult<List<UserDto>>> GetAllUsers()
         {
-            var users = await userRepository.GetAllUsersAsync();
+            var userDtoList = await userRepository.GetAllUsersAsync();
 
-            return Ok(users);
+            return Ok(userDtoList);
         }
 
         [HttpGet("{id}")]
