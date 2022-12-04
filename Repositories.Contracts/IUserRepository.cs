@@ -14,8 +14,10 @@ namespace Repositories.Contracts
         Task<List<UserDto>> GetAllUsersAsync();
         Task<UserDto?> GetUserAsync(int id);
         Task<UserDto?> AddUserAsync(UserDto userDto, string? password);
-        Task<User?> ModifyUserAsync(User param);
+        Task<UserDto?> ModifyUserAsync(UserDto userDto, string? password);
         Task<User?> RemoveUserAsync(int id);
         Task<User> LoginUser(string login, string pwd);
+        Task<bool> IsExistEmailAsync(string email);
+        Task<bool> IsUniqueEmailAsync(string email);
     }
 }

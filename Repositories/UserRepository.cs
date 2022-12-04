@@ -22,20 +22,36 @@ namespace Repositories
             this.context = context;
             this.logger = logger;
         }
-        private UserDto convertUserToDto(User user)
+
+        private static UserDto ConvertUserToDto(User user)
         {
-            var userDto = new UserDto { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email};
+            var userDto = new UserDto { FirstName = user.FirstName, LastName = user.LastName, Email = user.Email };
 
             return userDto;
         }
-        private User convertUserDtoToUser(UserDto userDto)
+
+        private static User ConvertUserDtoToUser(UserDto userDto)
         {
             var user = new User { FirstName = userDto.FirstName, LastName = userDto.LastName, Email = userDto.Email };
 
             return user;
         }
 
+        public async Task<bool> IsUniqueEmailAsync(string email)
+        {
+            var emails = await context.Users.Where(u => u.Email == email).ToListAsync(); ;
+            if (emails.Count() == 1)
+                return true;
+            else
+                return false;
+        }
 
+        public async Task<bool> IsExistEmailAsync(string email)
+        {
+            var isExist = await context.Users.AnyAsync(u => u.Email == email);
+
+            return isExist;
+        }
 
         public async Task<List<UserDto>> GetAllUsersAsync()
         {
@@ -43,7 +59,7 @@ namespace Repositories
             List<UserDto> userDtoList = new List<UserDto>();
             foreach (var user in users)
             {
-                userDtoList.Add(convertUserToDto(user));
+                userDtoList.Add(ConvertUserToDto(user));
             }
             return userDtoList;
         }
@@ -56,7 +72,7 @@ namespace Repositories
                 return null;
             else
             {
-                var userDto = convertUserToDto(user);
+                var userDto = ConvertUserToDto(user);
                 return userDto;
             }
         }
@@ -65,7 +81,7 @@ namespace Repositories
         {
             try
             {
-                var user = convertUserDtoToUser(userDto);
+                var user = ConvertUserDtoToUser(userDto);
                 if (password != null)
                     user.Password = password;
                 await context.Users.AddAsync(user);
@@ -81,20 +97,34 @@ namespace Repositories
             return userDto;
         }
 
-        public async Task<User?> ModifyUserAsync(User param)
+        public async Task<UserDto?> ModifyUserAsync(UserDto userDto, string? password)
         {
             try
             {
-                User? user = await context.Users.FindAsync(param.Id);
-                if (user != null)
+                bool isExist = await IsExistEmailAsync(userDto.Email);
+                if (!isExist)
                 {
-                    user.FirstName = param.FirstName;
-                    user.LastName = param.LastName;
-                    user.Email = param.Email;
-                    user.Password = param.Password;
+                    logger.LogError("The user's email does not exist.");
 
+                    return null;
+                }
+                bool isUnique = await IsUniqueEmailAsync(userDto.Email);
+                if (!isUnique)
+                {
+                    logger.LogError("The user's email does not unique.");
+
+                    return null;
+                }
+                User? user = await context.Users.FirstOrDefaultAsync(p => p.Email == userDto.Email);
+                Console.WriteLine(  "stop");
+                if (user != null )
+                {
+                    if (userDto.FirstName != null)
+                        user.FirstName = userDto.FirstName;
+                    if (userDto.LastName != null)
+                        user.LastName = userDto.LastName;
                     await context.SaveChangesAsync();
-                    return user;
+                    return userDto;
                 }
                 else
                 {

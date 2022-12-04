@@ -40,8 +40,11 @@ namespace MyPostApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<UserDto>> AddUser(string firstName, string lastName, string email, string? password)
+        public async Task<ActionResult<UserDto>> AddUser(string firstName, string lastName, string email, string password)
         {
+            var IsExistEmail = await userRepository.IsExistEmailAsync(email);
+            if (IsExistEmail)
+                return Problem("This email is already in use.");
             UserDto userDto = new UserDto
             {
                 FirstName = firstName,
@@ -57,9 +60,18 @@ namespace MyPostApi.Controllers
         }
 
         [HttpPut]
-        public async Task<ActionResult<User>> ModifyUser(User param)
+        public async Task<ActionResult<UserDto>> ModifyUser(string? firstName, string? lastName, string email, string? password)
         {
-            var userModified = await userRepository.ModifyUserAsync(param);
+            var IsExistEmail = await userRepository.IsExistEmailAsync(email);
+            if (!IsExistEmail)
+                return Problem("This user does not exist, please check the email.");
+            UserDto userDto = new UserDto
+            {
+                FirstName = firstName,
+                LastName = lastName,
+                Email = email
+            };
+            var userModified = await userRepository.ModifyUserAsync(userDto, password);
 
             if (userModified != null)
                 return Ok(userModified);
