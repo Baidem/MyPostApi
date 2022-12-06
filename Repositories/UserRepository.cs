@@ -115,14 +115,15 @@ namespace Repositories
 
                     return null;
                 }
-                User? user = await context.Users.FirstOrDefaultAsync(p => p.Email == userDto.Email);
-                Console.WriteLine(  "stop");
+                User? user = await context.Users.FirstOrDefaultAsync(u => u.Email == userDto.Email);
                 if (user != null )
                 {
                     if (userDto.FirstName != null)
                         user.FirstName = userDto.FirstName;
                     if (userDto.LastName != null)
                         user.LastName = userDto.LastName;
+                    if (password != null)
+                        user.Password = password;
                     await context.SaveChangesAsync();
                     return userDto;
                 }
